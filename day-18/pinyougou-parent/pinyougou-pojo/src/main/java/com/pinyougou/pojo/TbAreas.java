@@ -1,6 +1,6 @@
 package com.pinyougou.pojo;
 
-public class TbAreas {
+public class TbAreas implements Serializable{
     private Integer id;
 
     private String areaid;
