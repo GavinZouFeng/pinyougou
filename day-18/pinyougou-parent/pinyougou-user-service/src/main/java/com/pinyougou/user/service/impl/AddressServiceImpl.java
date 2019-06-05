@@ -1,5 +1,7 @@
 package com.pinyougou.user.service.impl;
 import java.util.List;
+
+import entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
@@ -75,7 +77,7 @@ public class AddressServiceImpl implements AddressService {
 	public void delete(Long[] ids) {
 		for(Long id:ids){
 			addressMapper.deleteByPrimaryKey(id);
-		}		
+		}
 	}
 	
 	
@@ -124,13 +126,30 @@ public class AddressServiceImpl implements AddressService {
 		return new PageResult(page.getTotal(), page.getResult());
 	}
 
+
 	@Override
 	public List<TbAddress> findListByUserId(String userId) {
-		
+		if(userId==null||userId==""){
+			return null;
+		}
 		TbAddressExample example=new TbAddressExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andUserIdEqualTo(userId);
 		return addressMapper.selectByExample(example);
 	}
-	
+
+    @Override
+    public void updateDufault(TbAddress address) {
+		addressMapper.updateByPrimaryKeySelective(address);
+		List<TbAddress> tbAddresses = addressMapper.selectByExample(null);
+		for (TbAddress tbAddress : tbAddresses) {
+			if(tbAddress.getId()!=address.getId()){
+				tbAddress.setIsDefault("0");
+				addressMapper.updateByPrimaryKeySelective(tbAddress);
+			}
+
+		}
+
+    }
+
 }
