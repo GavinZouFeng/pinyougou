@@ -47,15 +47,19 @@ public class OrderServiceImpl implements OrderService {
 		return orderMapper.selectByExample(null);
 	}
 
+	@Override
+	public PageResult findPage(int pageNum, int pageSize) {
+		return null;
+	}
+
 	/**
 	 * 按分页查询
-	 */
 	@Override
 	public PageResult findPage(int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);		
 		Page<TbOrder> page=   (Page<TbOrder>) orderMapper.selectByExample(null);
 		return new PageResult(page.getTotal(), page.getResult());
-	}
+	}*/
 
 	@Autowired
 	private RedisTemplate redisTemplate;
@@ -171,8 +175,11 @@ public class OrderServiceImpl implements OrderService {
 		Criteria criteria = example.createCriteria();
 		
 		if(order!=null){			
-						if(order.getPaymentType()!=null && order.getPaymentType().length()>0){
+				if(order.getPaymentType()!=null && order.getPaymentType().length()>0){
 				criteria.andPaymentTypeLike("%"+order.getPaymentType()+"%");
+			}
+			if(order.getOrderId()!=null ){
+				criteria.andOrderIdEqualTo(order.getOrderId());
 			}
 			if(order.getPostFee()!=null && order.getPostFee().length()>0){
 				criteria.andPostFeeLike("%"+order.getPostFee()+"%");
