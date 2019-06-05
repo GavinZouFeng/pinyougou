@@ -142,7 +142,7 @@ public class GoodsController {
 	
 	/**
 	 * 查询+分页
-	 * @param
+	 * @param brand
 	 * @param page
 	 * @param rows
 	 * @return
