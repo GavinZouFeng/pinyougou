@@ -24,7 +24,7 @@ public class UploadController {
 			// 获得文件的扩展名:
 			String extName = fileName.substring( fileName.lastIndexOf(".")+1 );
 			// 创建工具类
-			util.FastDFSClient client = new FastDFSClient("classpath:fastDFS/fdfs_client.conf");
+			FastDFSClient client = new FastDFSClient("classpath:fastDFS/fdfs_client.conf");
 			
 			String path = client.uploadFile(file.getBytes(), extName); // group1/M00/
 			
